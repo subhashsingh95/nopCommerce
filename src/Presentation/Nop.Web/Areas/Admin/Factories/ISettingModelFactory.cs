@@ -20,6 +20,16 @@ namespace Nop.Web.Areas.Admin.Factories
         Task<AppSettingsModel> PrepareAppSettingsModel(AppSettingsModel model = null);
 
         /// <summary>
+        /// Prepare robots.txt settings model
+        /// </summary>
+        /// <param name="model">robots.txt model</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation
+        /// The task result contains the robots.txt settings model
+        /// </returns>
+        Task<RobotsTxtSettingsModel> PrepareRobotsTxtSettingsModel(RobotsTxtSettingsModel model = null);
+
+        /// <summary>
         /// Prepare blog settings model
         /// </summary>
         /// <param name="model">Blog settings model</param>

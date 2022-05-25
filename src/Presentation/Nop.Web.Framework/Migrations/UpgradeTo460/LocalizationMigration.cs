@@ -233,6 +233,20 @@ namespace Nop.Web.Framework.Migrations.UpgradeTo460
                 ["Enums.Nop.Core.Domain.Catalog.ProductUrlStructureType.ManufacturerProduct"] = "/Manufacturer/Product",
                 ["Enums.Nop.Core.Domain.Catalog.ProductUrlStructureType.Product"] = "/Product",
 
+                //#5261
+                ["Admin.Configuration.RobotsTxtSettings"] ="robots.txt settings",
+                ["Admin.Configuration.RobotsTxtSettings.AdditionsInstruction"] = "You also may extend the robot.txt data by adding the {0} file on the root directory of your site.",
+                ["Admin.Configuration.RobotsTxtSettings.AdditionsRules"] = "Additions rules",
+                ["Admin.Configuration.RobotsTxtSettings.AdditionsRules.Hint"] = "Put here an additional rules for robots.txt file",
+                ["Admin.Configuration.RobotsTxtSettings.AllowSitemapXml"] = "Allow sitemap.xml",
+                ["Admin.Configuration.RobotsTxtSettings.AllowSitemapXml.Hint"] = "Check to allow robots use the sitemap.xml file",
+                ["Admin.Configuration.RobotsTxtSettings.CustomFileExists"] = "robots.txt file data overridden by {0} file in site root.",
+                ["Admin.Configuration.RobotsTxtSettings.DisallowLanguages"] = "Disallow languages",
+                ["Admin.Configuration.RobotsTxtSettings.DisallowLanguages.Hint"] = "The list of languages which prohibit to use by robots",
+                ["Admin.Configuration.RobotsTxtSettings.DisallowPaths"] = "Disallow paths",
+                ["Admin.Configuration.RobotsTxtSettings.DisallowPaths.Hint"] = "The list of paths which prohibit to use by robots",
+                ["Admin.Configuration.RobotsTxtSettings.LocalizableDisallowPaths"] = "Localizable disallow paths",
+                ["Admin.Configuration.RobotsTxtSettings.LocalizableDisallowPaths.Hint"] = "The list of localizable paths which prohibit to use by robots",
             }, languageId).Wait();
 
             #endregion

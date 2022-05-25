@@ -5574,6 +5574,9 @@
   <LocaleResource Name="Admin.Configuration.Plugins.Uploaded">
     <Value>{0} plugins and {1} themes have been uploaded</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.RobotsTxtSettings">
+    <Value>robots.txt settings</Value>
+  </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings">
     <Value>Settings</Value>
   </LocaleResource>

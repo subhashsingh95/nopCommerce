@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -236,6 +237,57 @@ namespace Nop.Web.Areas.Admin.Controllers
             //prepare model
             model = await _settingModelFactory.PrepareAppSettingsModel(model);
 
+            //if we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        public virtual async Task<IActionResult> RobotsTxt()
+        {
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageAppSettings))
+                return AccessDeniedView();
+
+            //prepare model
+            var model = await _settingModelFactory.PrepareRobotsTxtSettingsModel();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public virtual async Task<IActionResult> RobotsTxt(RobotsTxtSettingsModel model)
+        {
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageSettings))
+                return AccessDeniedView();
+
+            if (ModelState.IsValid)
+            {
+                //load settings for a chosen store scope
+                var storeScope = await _storeContext.GetActiveStoreScopeConfigurationAsync();
+                var robotsTxtSettings = await _settingService.LoadSettingAsync<RobotsTxtSettings>(storeScope);
+
+                robotsTxtSettings.AllowSitemapXml = model.AllowSitemapXml;
+                robotsTxtSettings.AdditionsRules = model.AdditionsRules;
+
+                robotsTxtSettings.DisallowLanguages = model.DisallowLanguages.ToList();
+
+                robotsTxtSettings.DisallowPaths = model.DisallowPaths.Split("\r\n").ToList();
+                robotsTxtSettings.LocalizableDisallowPaths = model.LocalizableDisallowPaths.Split("\r\n").ToList();
+
+                await _settingService.SaveSettingAsync(robotsTxtSettings);
+
+                //now clear settings cache
+                await _settingService.ClearCacheAsync();
+
+                //activity log
+                await _customerActivityService.InsertActivityAsync("EditSettings", await _localizationService.GetResourceAsync("ActivityLog.EditSettings"));
+
+                _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Configuration.Updated"));
+
+                return RedirectToAction("RobotsTxt");
+            }
+
+            //prepare model
+            model = await _settingModelFactory.PrepareRobotsTxtSettingsModel(model);
+            
             //if we got this far, something failed, redisplay form
             return View(model);
         }

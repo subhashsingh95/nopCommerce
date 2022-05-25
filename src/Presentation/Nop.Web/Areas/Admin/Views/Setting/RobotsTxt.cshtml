@@ -1,0 +1,101 @@
+@model RobotsTxtSettingsModel
+
+@{
+    ViewBag.PageTitle = T("Admin.Configuration.RobotsTxtSettings").Text;
+    NopHtml.SetActiveMenuItemSystemName("robots.txt settings");
+    
+    const int textAreaRows = 10;
+}
+
+<form asp-controller="Setting" asp-action="RobotsTxt" method="post">
+    <div class="content-header clearfix">
+        <h1 class="float-left">
+            @T("Admin.Configuration.RobotsTxtSettings")
+        </h1>
+        <div class="float-right">
+            <button type="submit" name="save" class="btn btn-primary">
+                <i class="far fa-save"></i>
+                @T("Admin.Common.Save")
+            </button>
+            @await Component.InvokeAsync(typeof(AdminWidgetViewComponent), new { widgetZone = AdminWidgetZones.RobotsTxtSettingsButtons, additionalData = Model })
+        </div>
+    </div>
+    <div class="content">
+        <div class="container-fluid">
+            <div class="form-horizontal">
+                <div class="card card-default">
+                    <div class="card-body">
+                        @if (!string.IsNullOrEmpty(Model.CustomFileExists))
+                        {
+                            <h4>@Model.CustomFileExists</h4>
+                        }
+                        else
+                        {
+                            <div class="form-group row">
+                                <div class="col-md-3">
+                                    <nop-label asp-for="@Model.AllowSitemapXml"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <nop-editor asp-for="@Model.AllowSitemapXml"/>
+                                    <span asp-validation-for="@Model.AllowSitemapXml"></span>
+                                </div>
+                            </div>
+                            @if (Model.AvailableLanguages.Any())
+                            {
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <nop-label asp-for="DisallowLanguages"/>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <nop-select asp-for="DisallowLanguages" asp-items="Model.AvailableLanguages" asp-multiple="true"/>
+                                        <script>
+                                            $(document).ready(function() {
+                                                var categoryIdsInput = $('#@Html.IdFor(model => model.DisallowLanguages)').data("kendoMultiSelect");
+                                                categoryIdsInput.setOptions({
+                                                    autoClose: false,
+                                                    filter: "contains"
+                                                });
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
+                            }
+
+                            <div class="form-group row">
+                                <div class="col-md-3">
+                                    <nop-label asp-for="@Model.DisallowPaths"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <nop-textarea rows="@textAreaRows" asp-for="@Model.DisallowPaths"></nop-textarea>
+                                    <span asp-validation-for="@Model.DisallowPaths"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-3">
+                                    <nop-label asp-for="@Model.LocalizableDisallowPaths"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <nop-textarea rows="@textAreaRows" asp-for="@Model.LocalizableDisallowPaths"></nop-textarea>
+                                    <span asp-validation-for="@Model.LocalizableDisallowPaths"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-3">
+                                    <nop-label asp-for="@Model.AdditionsRules"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <nop-textarea rows="@textAreaRows" asp-for="@Model.AdditionsRules"></nop-textarea>
+                                    <span asp-validation-for="@Model.AdditionsRules"></span>
+                                </div>
+                            </div>
+                        }
+
+                        <h4>@Model.AdditionsInstruction</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
